@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 
-import MessageItem from './messageItem';
+import MessageItem from './nativeCard';
 
 class MessagesBase extends Component {
     constructor(props) {
