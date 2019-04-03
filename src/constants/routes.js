@@ -6,3 +6,6 @@ export const ACCOUNT = '/account';
 export const PASSWORD_FORGET = '/pw-forget';
 export const ADMIN = '/admin';
 export const ADMIN_DETAILS = '/admin/:id';
+export const NATIVEGALLERY_LIST = '/native';
+export const NATIVEGALLERY_DETAILS = '/native/:id';
+export const NATIVEGALLERY_CREATE = '/native/create';
