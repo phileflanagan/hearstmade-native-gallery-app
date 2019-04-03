@@ -2,13 +2,13 @@ import React from 'react';
 import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Session';
-import Messages from '../NativeProject';
+import NativeGalleries from '../NativeGalleries';
 
 const HomePage = () => (
     <div>
         <h1>Home</h1>
         <p>This page is accessible by every signed in user.</p>
-        <Messages />
+        <NativeGalleries />
     </div>
 );
     
