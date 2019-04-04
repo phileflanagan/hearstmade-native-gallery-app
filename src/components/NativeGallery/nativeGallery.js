@@ -17,6 +17,8 @@ const INITIAL_STATE = {
     editMode: false,
     projectName: 'Project Name',
     editProjectName: 'Project Name',
+    headline: 'Headline',
+    editHeadline: 'Headline',
     nativeCards: [],
     limit: 5,
     error: null,

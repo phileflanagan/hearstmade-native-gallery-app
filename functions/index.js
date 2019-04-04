@@ -14,6 +14,7 @@ var ref = db.ref("/messages");
 const json2csv = require("json2csv").parse;
 
 function convertObjForCeltra(cards) {
+    let objToSend = {};
     cards.forEach(obj => {
         const cardNumber = obj.cardNumber;
         delete obj.cardNumber;
@@ -26,7 +27,9 @@ function convertObjForCeltra(cards) {
                 delete obj[oldKey];
             }
         }
-    })
+        objToSend = {...objToSend, ...obj};
+    });
+    return objToSend;
 }
 
 //Sends a CSV if data exists
@@ -43,8 +46,9 @@ exports.getNative = functions.https.onRequest((req, res) => {
         const nativeCardsObj = nativeObj.nativeCards;
         // Return CSV if found
         if (nativeCardsObj) {
-            convertObjForCeltra(nativeCardsObj);
-            const csv = json2csv(nativeCardsObj)
+            objToSend = convertObjForCeltra(nativeCardsObj);
+            console.log(objToSend);
+            const csv = json2csv(objToSend)
             res.setHeader(
                 "Content-disposition",
                 `attachment; filename=Native-${nativeId}.csv`
