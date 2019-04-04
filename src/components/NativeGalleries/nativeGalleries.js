@@ -48,7 +48,7 @@ class NativeGalleriesBase extends Component {
                     const nativeGalleryList = Object.keys(nativeGalleriesObject).map(key => ({
                         ...nativeGalleriesObject[key],
                         uid: key
-                    }));
+                    })).reverse();
 
                     this.setState({ 
                         nativeGalleries: nativeGalleryList, 

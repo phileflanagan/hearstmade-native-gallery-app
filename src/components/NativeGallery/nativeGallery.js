@@ -5,30 +5,69 @@ import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 import { withRouter } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
 
 import NativeCard from './nativeCard';
+
+const INITIAL_STATE = {
+    loading: false,
+    existing: false,
+    uid: null,
+    cardCount: 0,
+    editMode: false,
+    projectName: 'Project Name',
+    editProjectName: 'Project Name',
+    nativeCards: [],
+    limit: 5,
+    error: null,
+    edited: false,
+    userId: null,
+}
 
 class NativeGalleryBase extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            cardCount: 0,
+        if (props.nativeGallery){ console.log(props.nativeGallery)};
+        this.state = (props.nativeGallery) ? ({
+            loading: false,
+            existing: true,
+            uid: props.nativeGallery.uid,
+            cardCount: props.nativeGallery.nativeCards.length,
             editMode: false,
-            projectName: 'Project Name',
-            editProjectName: 'Project Name',
-            nativeCards: [],
+            projectName: props.nativeGallery.projectName,
+            nativeCards: props.nativeGallery.nativeCards,
             limit: 5,
-            error: null
-        };
+            error: null,
+            edited: false,
+            userId: props.nativeGallery.userId
+        }) : ({...INITIAL_STATE});
     }
     componentDidMount() {
-
+        // this.setState({ loading: true });
+        // this.props.firebase
+        //     .nativeGallery(this.props.match.params.id)
+        //     .on('value', snapshot => {
+            // const nativeGallery = snapshot.val();
+        //         this.setState({ 
+                        // existing: true,
+                        // uid: nativeGallery.uid,
+                        // cardCount: nativeGallery.nativeCards.length,
+                        // editMode: false,
+                        // projectName: nativeGallery.projectName,
+                        // nativeCards: nativeGallery.nativeCards,
+                        // limit: 5,
+                        // error: null,
+                        // edited: false
+        //             loading: false
+        //         });
+        //     });
     }
 
     componentWillUnmount() {
 
     }
 
+    // Called when creating a new Native Gallery
     onPublish = (e, authUser) => {
         const { projectName, cardCount, nativeCards } = this.state;
         this.props.firebase.nativeGalleries().push({
@@ -41,6 +80,23 @@ class NativeGalleryBase extends Component {
             this.props.history.push(ROUTES.NATIVEGALLERY_LIST);
         }).catch(error => {
             this.setState({ error });
+        });
+    }
+
+    // Called when updating an existing Native Gallery
+    onUpdatePublished = (e, authUser) => {
+        this.setState({ loading: true });
+        const { uid, projectName, cardCount, nativeCards } = this.state;
+        this.props.firebase.nativeGallery(uid).update({
+            projectName,
+            cardCount,
+            nativeCards,
+            modifiedAt: this.props.firebase.serverValue.TIMESTAMP 
+        }).then(() => {
+            this.setState({ loading: false })
+            this.props.history.push(ROUTES.NATIVEGALLERY_LIST);
+        }).catch(error => {
+            this.setState({ error, loading: false });
         });
     }
 
@@ -87,7 +143,7 @@ class NativeGalleryBase extends Component {
                 index === i ? updatedNativeCard : nativeCard
             ));
 
-            return { nativeCards };
+            return { nativeCards, edited: true };
         });
     }
 
@@ -104,12 +160,13 @@ class NativeGalleryBase extends Component {
     onSaveEditText = () => {
         this.setState(state => ({
             projectName: state.editProjectName,
-            editMode: false
+            editMode: false,
+            edited: true
         }));
     }
 
     render() {
-        const { cardCount, limit, nativeCards, error } = this.state;
+        const { cardCount, limit, nativeCards, edited, error, existing, loading, userId } = this.state;
         const { editMode, editProjectName, projectName } = this.state;
         const decrementInvalid = cardCount <= 0;
         const incrementInvalid = cardCount >= limit;
@@ -117,55 +174,87 @@ class NativeGalleryBase extends Component {
             <AuthUserContext.Consumer>
                 {authUser => (
                     <div>
-                        Number of cards: 
-                        <button 
-                            type="button"
-                            disabled={decrementInvalid} 
-                            onClick={() => this.onDecrementCardCount()}
-                        > - </button>
-                        {cardCount}
-                        <button 
-                            type="button"
-                            disabled={incrementInvalid} 
-                            onClick={() => this.onIncrementCardCount()}
-                        > + </button>
-
-                        <div>
-                        {editMode ? (
-                            <input
-                                type="text"
-                                name="editProjectName"
-                                value={editProjectName}
-                                onChange={this.onChangeText}
-                                placeholder="Project Name"
-                            />
-                        ) : (
-                            <span>{projectName}</span>
-                        )}
-                        {editMode ? (
+                        { (!loading) ? (
                             <div>
-                                <button onClick={() => this.onSaveEditText()}>Save</button>
-                                <button onClick={this.onToggleEditMode}>Reset</button>
-                            </div>
-                        ) : (
-                            <button onClick={this.onToggleEditMode}>Edit</button>
-                        )}
+                            { (!existing || authUser.uid === userId || authUser.roles.includes(ROLES.ADMIN)) ? (
+                                <div>
+                                    Number of cards: 
+                                    <button 
+                                        type="button"
+                                        disabled={decrementInvalid} 
+                                        onClick={() => this.onDecrementCardCount()}
+                                    > - </button>
+                                    {cardCount}
+                                    <button 
+                                        type="button"
+                                        disabled={incrementInvalid} 
+                                        onClick={() => this.onIncrementCardCount()}
+                                    > + </button>
+            
+                                    <div>
+                                    {editMode ? (
+                                        <input
+                                            type="text"
+                                            name="editProjectName"
+                                            value={editProjectName}
+                                            onChange={this.onChangeText}
+                                            placeholder="Project Name"
+                                        />
+                                    ) : (
+                                        <span>{projectName}</span>
+                                    )}
+                                    {editMode ? (
+                                        <div>
+                                            <button onClick={() => this.onSaveEditText()}>Save</button>
+                                            <button onClick={this.onToggleEditMode}>Reset</button>
+                                        </div>
+                                    ) : (
+                                        <button onClick={this.onToggleEditMode}>Edit</button>
+                                    )}
+                                    </div>
+                                    {nativeCards.map((nativeCard, i) => (
+                                        <NativeCard 
+                                            key={i} 
+                                            cardData={nativeCard}
+                                            onUpdateCard={this.onUpdateCard}
+                                            canEdit={true}
+                                        />
+                                    ))}
+                                    {cardCount > 0 && edited && !existing && (
+                                        <button 
+                                            type="button" 
+                                            onClick={e => this.onPublish(e, authUser)}
+                                        >Publish</button>
+                                    )}
+                                    {cardCount > 0 && edited && existing && (
+                                        <button 
+                                            type="button" 
+                                            onClick={e => this.onUpdatePublished(e, authUser)}
+                                        >Update Project</button>
+                                    )}
+                                    {error && <div>{error}</div>}
+                                </div>
+                            ) : (
+                                <div>
+                                    Number of Cards: {cardCount}
+                                    <div>
+                                        {projectName}
+                                    </div>
+                                    {nativeCards.map((nativeCard, i) => (
+                                        <NativeCard 
+                                            key={i} 
+                                            cardData={nativeCard}
+                                            onUpdateCard={this.onUpdateCard} 
+                                            canEdit={false}
+                                        />
+                                    ))}
+                                </div>
+                            )}
                         </div>
-                        {nativeCards.map((nativeCard, i) => (
-                            <NativeCard 
-                                key={i} 
-                                cardData={nativeCard}
-                                onUpdateCard={this.onUpdateCard} 
-                            />
-                        ))}
-                        {cardCount > 0 && (
-                            <button 
-                                type="button" 
-                                onClick={e => this.onPublish(e, authUser)}
-                            >Publish</button>
+                        ) : (
+                            <div>Loading ...</div>
                         )}
-                        {error && <div>{error}</div>}
-                    </div>
+                    </div>  
                 )}
             </AuthUserContext.Consumer>
         );
