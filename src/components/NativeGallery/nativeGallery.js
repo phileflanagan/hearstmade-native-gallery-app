@@ -46,6 +46,10 @@ class NativeGalleryBase extends Component {
             userId: props.nativeGallery.userId
         }) : ({...INITIAL_STATE});
     }
+
+    charLimits = {
+        editHeadline: 50,
+    }
     componentDidMount() {
         // this.setState({ loading: true });
         // this.props.firebase
@@ -156,6 +160,10 @@ class NativeGalleryBase extends Component {
     }
 
     onChangeText = e => {
+        console.log(this.state.hasOwnProperty(e.target.name));
+        if (this.state.hasOwnProperty(e.target.name) && this.charLimits.hasOwnProperty(e.target.name)) {
+            if (this.state[e.target.name].length >= this.charLimits[e.target.name]) return;
+        }
         this.setState({ [e.target.name]: e.target.value });
     }
 
@@ -224,6 +232,7 @@ class NativeGalleryBase extends Component {
                                                 placeholder="Headline"
                                                 id="unitHeadline"
                                             />
+                                            {<span>{editHeadline.length} / {this.charLimits.editHeadline}</span>}
                                         </div>
                                     ) : (
                                         <div>

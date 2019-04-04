@@ -3,11 +3,12 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
+// const serviceAccount = require("../firebasecred.json");
 admin.initializeApp();
 
 // Get a database reference to our posts
-var db = admin.database();
-var ref = db.ref("/messages");
+const db = admin.database();
+const ref = db.ref("/messages");
 
 
 // Library to convert JSON to CSV

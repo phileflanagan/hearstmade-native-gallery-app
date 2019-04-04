@@ -13,5 +13,8 @@
     "firebase-functions": "^2.2.0",
     "json2csv": "^4.4.1"
   },
+  "engines": {
+    "node": "8"
+  },
   "private": true
 }

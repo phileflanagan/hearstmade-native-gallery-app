@@ -13,7 +13,7 @@ class NativeGalleriesBase extends Component {
             users: null,
             nativeGalleries: null,
             loading: false,
-        }
+        };
     }
 
     componentDidMount() {
@@ -60,6 +60,7 @@ class NativeGalleriesBase extends Component {
             })
     }
 
+
     render() {
         const { users, nativeGalleries, loading} = this.state;
         return (
@@ -82,35 +83,95 @@ class NativeGalleriesBase extends Component {
     }
 }
 
-const NativeGalleryListTable = ({nativeGalleries}) => (
-    <table>
-        <thead>
-            <tr>
-                <th>Creator</th>
-                <th>Project Name</th>
-                <th>Card Count</th>
-                <th>ID</th>
-                <th>View</th>
-            </tr>
-        </thead>
-        <tbody>
-        {nativeGalleries.map(nativeGallery => (
-            <tr key={nativeGallery.uid}>
-                <td>{nativeGallery.user.username || nativeGallery.user.userId}</td>
-                <td>{nativeGallery.projectName}</td>
-                <td>{nativeGallery.cardCount}</td>
-                <td>{nativeGallery.uid}</td>
-                <td><Link 
-                        to={{
-                            pathname: `${ROUTES.NATIVEGALLERY_LIST}/${nativeGallery.uid}`, 
-                            state: { nativeGallery }
-                        }}
-                    >More</Link>
-                </td>
-            </tr>  
-        ))}
-        </tbody>
-    </table>
-);
+class NativeGalleryListTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            copySuccess: '',
+            copiedUid: '',
+        }
+    }
+
+    references = {};
+
+    getOrCreateRef = uid => {
+        if(!this.references.hasOwnProperty(uid)) {
+            this.references[uid] = React.createRef();
+        }
+        return this.references[uid];
+    }
+
+    onCopyToClipboard = (e, uid) => {
+        this.references[uid].current.select();
+        document.execCommand('copy');
+        e.target.focus();
+        this.setState({ 
+            copySuccess: 'Copied!',
+            copiedUid: uid
+        });
+        this.clearCopied();
+    }
+
+    clearCopied = () => {
+        setTimeout(() => {
+            this.setState({
+                copySuccess: '',
+                copiedUid: '',
+            })    
+        }, 1000)
+    }
+    
+    render() {
+        const { nativeGalleries } = this.props;
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>Creator</th>
+                        <th>Project Name</th>
+                        <th>Card Count</th>
+                        <th>ID</th>
+                        <th>View</th>
+                        <th>Copy Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {nativeGalleries.map(nativeGallery => (
+                    <tr key={nativeGallery.uid}>
+                        <td>{nativeGallery.user.username || nativeGallery.user.userId}</td>
+                        <td>{nativeGallery.projectName}</td>
+                        <td>{nativeGallery.cardCount}</td>
+                        <td>{nativeGallery.uid}</td>
+                        <td><Link 
+                                to={{
+                                    pathname: `${ROUTES.NATIVEGALLERY_LIST}/${nativeGallery.uid}`, 
+                                    state: { nativeGallery }
+                                }}
+                            >View</Link>
+                        </td>
+                        <td>
+                            <input 
+                                ref={this.getOrCreateRef(nativeGallery.uid)}
+                                type="text"
+                                target="link" 
+                                style={{position: 'absolute', left: '-9999px'}}
+                                defaultValue={`${process.env.REACT_APP_CLOUDFN_GETNATIVE}?id=${nativeGallery.uid}`} />
+                            {document.queryCommandSupported('copy') && (
+                                <div>
+                                <button
+                                    type="button"
+                                    onClick={e => this.onCopyToClipboard(e, nativeGallery.uid)}
+                                >Copy to Clipboard</button>
+                                </div>
+                            )}
+                            {nativeGallery.uid === this.state.copiedUid && <span>{this.state.copySuccess}</span>}
+                        </td>
+                    </tr>  
+                ))}
+                </tbody>
+            </table>
+        )
+    }
+}
 
 export default withFirebase(NativeGalleriesBase);

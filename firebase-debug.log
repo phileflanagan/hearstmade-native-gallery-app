@@ -1,0 +1,28 @@
+[debug] [2019-04-04T17:30:02.176Z] ----------------------------------------------------------------------
+[debug] [2019-04-04T17:30:02.178Z] Command:       /usr/local/Cellar/node@8/8.9.4/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-04-04T17:30:02.178Z] CLI Version:   6.5.0
+[debug] [2019-04-04T17:30:02.178Z] Platform:      darwin
+[debug] [2019-04-04T17:30:02.178Z] Node Version:  v8.9.4
+[debug] [2019-04-04T17:30:02.179Z] Time:          Thu Apr 04 2019 13:30:02 GMT-0400 (EDT)
+[debug] [2019-04-04T17:30:02.179Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-04-04T17:30:02.187Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-04T17:30:02.187Z] > authorizing via signed-in user
+[debug] [2019-04-04T17:30:02.187Z] [iam] checking project hearstmade-native-galleries for permissions ["firebase.projects.get"]
+[debug] [2019-04-04T17:30:02.189Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/hearstmade-native-galleries:testIamPermissions  
+
+[debug] [2019-04-04T17:30:02.418Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-04T17:30:02.420Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/hearstmade-native-galleries  
+ 
+[debug] [2019-04-04T17:30:02.984Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/pflanagan/Documents/Hearstmade 2019/react-firebase-hearstmade-native-galleries'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-04-04T17:30:03.602Z] Fetching environment
+[debug] [2019-04-04T17:30:03.604Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/669778615756:getServerAppConfig  
+ 
+[debug] [2019-04-04T17:30:03.803Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-04T17:30:03.804Z] Starting @google-cloud/functions-emulator
+[debug] [2019-04-04T17:30:05.374Z] Parsing function triggers
+[info] ✔  functions: getNative: http://localhost:5000/hearstmade-native-galleries/us-central1/getNative

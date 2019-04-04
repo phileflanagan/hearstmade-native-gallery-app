@@ -11,6 +11,12 @@ class NativeCard extends Component {
          };
     }
 
+    charLimits = {
+        editProductName: 50,
+        editProductDescription: 225,
+        editPrice: 10
+    }
+
     onToggleEditMode = () => {
         this.setState(state => ({
             editMode: !state.editMode,
@@ -28,6 +34,9 @@ class NativeCard extends Component {
     }
 
     onChangeText = e => {
+        if (this.state.hasOwnProperty(e.target.name) && this.charLimits.hasOwnProperty(e.target.name)) {
+            if (this.state[e.target.name].length >= this.charLimits[e.target.name]) return;
+        }
         this.setState({ [e.target.name]: e.target.value });
     }
 
@@ -53,6 +62,7 @@ class NativeCard extends Component {
                                     id="editProductName"
                                     placeholder="Product Name"
                                 /> 
+                                {<span>{editProductName.length} / {this.charLimits.editProductName}</span>}
                                 <br />
                                 <label htmlFor="editProductDescription">Description</label>
                                 <textarea
@@ -63,6 +73,7 @@ class NativeCard extends Component {
                                     id="editProductDescription"
                                     placeholder="Product Description"
                                 ></textarea>
+                                {<span>{editProductDescription.length} / {this.charLimits.editProductDescription}</span>}
                                 <br />
                                 <label htmlFor="editPrice">Price</label>
                                 <input
@@ -72,7 +83,8 @@ class NativeCard extends Component {
                                     value={editPrice}
                                     id="editPrice"
                                     placeholder="Price, e.g. '$0.00"
-                                />      
+                                />
+                                {<span>{editPrice.length} / {this.charLimits.editPrice}</span>}      
                             </div>
                         ) : (
                             <div>
