@@ -29,7 +29,6 @@ const INITIAL_STATE = {
 class NativeGalleryBase extends Component {
     constructor(props) {
         super(props);
-        if (props.nativeGallery){ console.log(props.nativeGallery)};
         this.state = (props.nativeGallery) ? ({
             loading: false,
             existing: true,
@@ -37,6 +36,9 @@ class NativeGalleryBase extends Component {
             cardCount: props.nativeGallery.nativeCards.length,
             editMode: false,
             projectName: props.nativeGallery.projectName,
+            editProjectName: props.nativeGallery.projectName,
+            headline: props.nativeGallery.headline,
+            editHeadline: props.nativeGallery.headline,
             nativeCards: props.nativeGallery.nativeCards,
             limit: 5,
             error: null,
@@ -56,6 +58,9 @@ class NativeGalleryBase extends Component {
                         // cardCount: nativeGallery.nativeCards.length,
                         // editMode: false,
                         // projectName: nativeGallery.projectName,
+                        // editProjectName: nativeGallery.projectName,
+                        // headline: nativeGallery.headline,
+                        // editHeadline: nativeGallery.headline
                         // nativeCards: nativeGallery.nativeCards,
                         // limit: 5,
                         // error: null,
@@ -71,9 +76,10 @@ class NativeGalleryBase extends Component {
 
     // Called when creating a new Native Gallery
     onPublish = (e, authUser) => {
-        const { projectName, cardCount, nativeCards } = this.state;
+        const { projectName, headline, cardCount, nativeCards } = this.state;
         this.props.firebase.nativeGalleries().push({
             projectName,
+            headline,
             cardCount,
             nativeCards,
             createdAt: this.props.firebase.serverValue.TIMESTAMP,
@@ -88,9 +94,10 @@ class NativeGalleryBase extends Component {
     // Called when updating an existing Native Gallery
     onUpdatePublished = (e, authUser) => {
         this.setState({ loading: true });
-        const { uid, projectName, cardCount, nativeCards } = this.state;
+        const { uid, projectName, headline, cardCount, nativeCards } = this.state;
         this.props.firebase.nativeGallery(uid).update({
             projectName,
+            headline,
             cardCount,
             nativeCards,
             modifiedAt: this.props.firebase.serverValue.TIMESTAMP 
@@ -117,7 +124,6 @@ class NativeGalleryBase extends Component {
             const newCardNum = state.nativeCards.length + 1;
             const newCard = {
                 cardNumber: `${newCardNum}`,
-                headline: `Headline ${newCardNum}`,
                 productName: `Product ${newCardNum}`,
                 productDescription: `Product ${newCardNum} Description`,
                 price: `$0.00`,
@@ -162,6 +168,7 @@ class NativeGalleryBase extends Component {
     onSaveEditText = () => {
         this.setState(state => ({
             projectName: state.editProjectName,
+            headline: state.editHeadline,
             editMode: false,
             edited: true
         }));
@@ -169,7 +176,7 @@ class NativeGalleryBase extends Component {
 
     render() {
         const { cardCount, limit, nativeCards, edited, error, existing, loading, userId } = this.state;
-        const { editMode, editProjectName, projectName } = this.state;
+        const { editMode, editProjectName, projectName, headline, editHeadline } = this.state;
         const decrementInvalid = cardCount <= 0;
         const incrementInvalid = cardCount >= limit;
 
@@ -197,15 +204,33 @@ class NativeGalleryBase extends Component {
             
                                     <div>
                                     {editMode ? (
-                                        <input
-                                            type="text"
-                                            name="editProjectName"
-                                            value={editProjectName}
-                                            onChange={this.onChangeText}
-                                            placeholder="Project Name"
-                                        />
+                                        <div>
+                                            <label htmlFor="projectName">Project Name</label>
+                                            <input
+                                                type="text"
+                                                name="editProjectName"
+                                                value={editProjectName}
+                                                onChange={this.onChangeText}
+                                                placeholder="Project Name"
+                                                id="projectName"
+                                            />
+                                            <br />
+                                            <label htmlFor="unitHeadline">Unit Headline</label>
+                                            <input
+                                                type="text"
+                                                name="editHeadline"
+                                                value={editHeadline}
+                                                onChange={this.onChangeText}
+                                                placeholder="Headline"
+                                                id="unitHeadline"
+                                            />
+                                        </div>
                                     ) : (
-                                        <span>{projectName}</span>
+                                        <div>
+                                            <span>Project Name: {projectName}</span>
+                                            <br />
+                                            <span>Unit Headline: {headline}</span>
+                                        </div>
                                     )}
                                     {editMode ? (
                                         <div>
@@ -219,6 +244,7 @@ class NativeGalleryBase extends Component {
                                     {nativeCards.map((nativeCard, i) => (
                                         <NativeCard 
                                             key={i} 
+                                            headline={headline}
                                             cardData={nativeCard}
                                             onUpdateCard={this.onUpdateCard}
                                             canEdit={true}
@@ -247,6 +273,7 @@ class NativeGalleryBase extends Component {
                                     {nativeCards.map((nativeCard, i) => (
                                         <NativeCard 
                                             key={i} 
+                                            headline={headline}
                                             cardData={nativeCard}
                                             onUpdateCard={this.onUpdateCard} 
                                             canEdit={false}

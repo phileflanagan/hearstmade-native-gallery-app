@@ -13,8 +13,9 @@ var ref = db.ref("/messages");
 // Library to convert JSON to CSV
 const json2csv = require("json2csv").parse;
 
-function convertObjForCeltra(cards) {
+function convertObjForCeltra(cards, headline) {
     let objToSend = {};
+    objToSend['value:UnitHeadline'] = headline;
     cards.forEach(obj => {
         const cardNumber = obj.cardNumber;
         delete obj.cardNumber;
@@ -38,7 +39,8 @@ exports.getNative = functions.https.onRequest((req, res) => {
 
     // Return if ID not supplied or ill-formatted
     if (!nativeId) {
-        res.send('Please provide the Native Gallery ID in the url. Example /getNative?id=1d9Ejd03jadf932')
+        res.send('Please provide the Native Gallery ID in the url. Example /getNative?id=1d9Ejd03jadf932');
+        return;
     };
 
     admin.database().ref(`/nativeGalleries/${nativeId}`).on('value', (snapshot) => {
@@ -46,8 +48,7 @@ exports.getNative = functions.https.onRequest((req, res) => {
         const nativeCardsObj = nativeObj.nativeCards;
         // Return CSV if found
         if (nativeCardsObj) {
-            objToSend = convertObjForCeltra(nativeCardsObj);
-            console.log(objToSend);
+            objToSend = convertObjForCeltra(nativeCardsObj, nativeObj.headline);
             const csv = json2csv(objToSend)
             res.setHeader(
                 "Content-disposition",

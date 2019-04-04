@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 
-import { AuthUserContext } from '../Session';
-import * as ROLES from '../../constants/roles';
-
 class NativeCard extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             editMode: false,
-            editHeadline: this.props.cardData.headline,
             editProductName: this.props.cardData.productName,
             editProductDescription: this.props.cardData.productDescription,
             editPrice: this.props.cardData.price,
@@ -24,7 +20,6 @@ class NativeCard extends Component {
     onSaveEditText = (cardNumber) => {
         this.props.onUpdateCard({ 
             cardNumber,
-            headline: this.state.editHeadline,
             productName: this.state.editProductName,
             productDescription: this.state.editProductDescription,
             price: this.state.editPrice, 
@@ -37,9 +32,9 @@ class NativeCard extends Component {
     }
 
     render() {
-        const { cardNumber, headline, productName, productDescription, price } = this.props.cardData;
-        const { editMode, editHeadline, editProductName, editProductDescription, editPrice } = this.state;
-        const { canEdit } = this.props;
+        const { cardNumber, productName, productDescription, price } = this.props.cardData;
+        const { editMode, editProductName, editProductDescription, editPrice } = this.state;
+        const { canEdit, headline } = this.props;
         return (
             <div>
                 {(canEdit) ? (
@@ -47,15 +42,8 @@ class NativeCard extends Component {
                         Card {cardNumber}
                         {editMode ? (
                             <div>
-                                <label htmlFor="editHeadline">Headline</label>
-                                <input
-                                    type="text"
-                                    name="editHeadline"
-                                    onChange={this.onChangeText}
-                                    value={editHeadline}
-                                    id="editHeadline"
-                                    placeholder="Headline"
-                                />
+                                <h2>{headline}</h2>
+                                <br />
                                 <label htmlFor="editProductName">Product Name</label>
                                 <input
                                     type="text"
@@ -65,6 +53,7 @@ class NativeCard extends Component {
                                     id="editProductName"
                                     placeholder="Product Name"
                                 /> 
+                                <br />
                                 <label htmlFor="editProductDescription">Description</label>
                                 <textarea
                                     type="text"
@@ -74,6 +63,7 @@ class NativeCard extends Component {
                                     id="editProductDescription"
                                     placeholder="Product Description"
                                 ></textarea>
+                                <br />
                                 <label htmlFor="editPrice">Price</label>
                                 <input
                                     type="text"
@@ -116,75 +106,3 @@ class NativeCard extends Component {
     }
 }
 export default NativeCard;
-
-// <AuthUserContext.Consumer>
-// {authUser => ((canEdit) ? (
-//     <div>
-//         Card {cardNumber}
-//         {editMode ? (
-//             <div>
-//                 <label htmlFor="editHeadline">Headline</label>
-//                 <input
-//                     type="text"
-//                     name="editHeadline"
-//                     onChange={this.onChangeText}
-//                     value={editHeadline}
-//                     id="editHeadline"
-//                     placeholder="Headline"
-//                 />
-//                 <label htmlFor="editProductName">Product Name</label>
-//                 <input
-//                     type="text"
-//                     name="editProductName"
-//                     onChange={this.onChangeText}
-//                     value={editProductName}
-//                     id="editProductName"
-//                     placeholder="Product Name"
-//                 /> 
-//                 <label htmlFor="editProductDescription">Description</label>
-//                 <textarea
-//                     type="text"
-//                     name="editProductDescription"
-//                     onChange={this.onChangeText}
-//                     value={editProductDescription}
-//                     id="editProductDescription"
-//                     placeholder="Product Description"
-//                 ></textarea>
-//                 <label htmlFor="editPrice">Price</label>
-//                 <input
-//                     type="text"
-//                     name="editPrice"
-//                     onChange={this.onChangeText}
-//                     value={editPrice}
-//                     id="editPrice"
-//                     placeholder="Price, e.g. '$0.00"
-//                 />      
-//             </div>
-//         ) : (
-//             <div>
-//                 <h2>{headline}</h2>
-//                 <h3>{productName}</h3>
-//                 <p>{productDescription}</p>
-//                 <p>{price}</p>
-//             </div>
-//         )}
-
-//         {editMode ? (
-//             <div>
-//                 <button onClick={() => this.onSaveEditText(cardNumber)}>Save</button>
-//                 <button onClick={this.onToggleEditMode}>Reset</button>
-//             </div>
-//         ) : (
-//             <button onClick={this.onToggleEditMode}>Edit</button>
-//         )}
-//         <hr />
-//     </div>
-// ) : (
-//     <div>
-//         <h2>{headline}</h2>
-//         <h3>{productName}</h3>
-//         <p>{productDescription}</p>
-//         <p>{price}</p>
-//     </div>
-// ))};
-// </AuthUserContext.Consumer>
