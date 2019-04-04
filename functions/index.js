@@ -13,36 +13,41 @@ var ref = db.ref("/messages");
 // Library to convert JSON to CSV
 const json2csv = require("json2csv").parse;
 
-function convertObjForCeltra(obj) {
-	for (var key in obj) {
-		var oldKey = key;
-		var newKey = (oldKey == 'placementName') ? 'condition:' + oldKey :'value:' + oldKey;
-		if(!oldKey.startsWith("value:")) {
-			Object.defineProperty(obj, newKey, Object.getOwnPropertyDescriptor(obj, oldKey));
-			delete obj[oldKey];
-		}
-	}
+function convertObjForCeltra(cards) {
+    cards.forEach(obj => {
+        const cardNumber = obj.cardNumber;
+        delete obj.cardNumber;
+        for (var key in obj) {
+            var oldKey = key;
+            var oldKeyAdjusted = 'Card' + cardNumber + oldKey.charAt(0).toUpperCase() + oldKey.slice(1);
+            var newKey = (oldKey == 'placementName') ? 'condition:' + oldKeyAdjusted :'value:' + oldKeyAdjusted;
+            if(!oldKey.startsWith("value:") && !oldKey.startsWith("condition")) {
+                Object.defineProperty(obj, newKey, Object.getOwnPropertyDescriptor(obj, oldKey));
+                delete obj[oldKey];
+            }
+        }
+    })
 }
 
 //Sends a CSV if data exists
-exports.getMessage = functions.https.onRequest((req, res) => {
-    const messageID = req.query.id;
+exports.getNative = functions.https.onRequest((req, res) => {
+    const nativeId = req.query.id;
 
     // Return if ID not supplied or ill-formatted
-    if (!messageID) {
-        res.send('Please provide the message ID in the url. Example /getMessage?id=1d9Ejd03jadf932')
+    if (!nativeId) {
+        res.send('Please provide the Native Gallery ID in the url. Example /getNative?id=1d9Ejd03jadf932')
     };
 
-    admin.database().ref(`/messages/${messageID}`).on('value', (snapshot) => {
-        const messageObj = snapshot.val();
-
+    admin.database().ref(`/nativeGalleries/${nativeId}`).on('value', (snapshot) => {
+        const nativeObj = snapshot.val();
+        const nativeCardsObj = nativeObj.nativeCards;
         // Return CSV if found
-        if (messageObj) {
-            convertObjForCeltra(messageObj);
-            const csv = json2csv(messageObj)
+        if (nativeCardsObj) {
+            convertObjForCeltra(nativeCardsObj);
+            const csv = json2csv(nativeCardsObj)
             res.setHeader(
                 "Content-disposition",
-                `attachment; filename=Native-${messageID}.csv`
+                `attachment; filename=Native-${nativeId}.csv`
             )
             res.set("Content-Type", "text/csv")
             res.status(200).send(csv)
