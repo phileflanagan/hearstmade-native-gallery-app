@@ -160,11 +160,16 @@ class NativeGalleryBase extends Component {
     }
 
     onChangeText = e => {
-        console.log(this.state.hasOwnProperty(e.target.name));
         if (this.state.hasOwnProperty(e.target.name) && this.charLimits.hasOwnProperty(e.target.name)) {
-            if (this.state[e.target.name].length >= this.charLimits[e.target.name]) return;
+            if (this.state[e.target.name].length >= this.charLimits[e.target.name]) {
+                this.setState({ [e.target.name]: e.target.value.substring(0, this.charLimits[e.target.name]) });
+            } else {
+                this.setState({ [e.target.name]: e.target.value });
+
+            }
+        } else {
+            this.setState({ [e.target.name]: e.target.value });
         }
-        this.setState({ [e.target.name]: e.target.value });
     }
 
     onToggleEditMode = () => {
