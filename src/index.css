@@ -16,3 +16,8 @@ code {
 * {
   box-sizing: border-box;
 }
+
+a {
+  color: #e7bd57;
+  text-decoration: none;
+}

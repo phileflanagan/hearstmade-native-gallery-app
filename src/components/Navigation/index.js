@@ -34,33 +34,39 @@ class NavigationAuth extends Component {
         const { authUser } = this.props;
         const { accountOpen } = this.state;
         return (
-            <NavBar>
-                <SiteContainer flex>
-                    <Logo><StyledLink as={Link} to={ROUTES.HOME}>Hearstmade Tools</StyledLink></Logo>
-                    <NavItem><StyledLink as={Link} to={ROUTES.NATIVEGALLERY_LIST}>Native Galleries</StyledLink></NavItem>
-                    <NavItem right onClick={this.onAccountOpen}>
-                        <StyledLink>{authUser.username}</StyledLink>
-                        {accountOpen && (
-                            <AccountNav>
-                                <AccountNavItem><StyledLink as={Link} to={ROUTES.ACCOUNT}>Account</StyledLink></AccountNavItem>
-                                {authUser.roles.includes(ROLES.ADMIN) && (
-                                    <AccountNavItem><StyledLink as={Link} to={ROUTES.ADMIN}>Admin</StyledLink></AccountNavItem>
-                                )}
-                                <AccountNavItem><StyledLink><SignOutButton /></StyledLink></AccountNavItem>
-                            </AccountNav>
-                        )}
-                    </NavItem>
+            <NavBarWrapper>
+                <SiteContainer>
+                    <NavBar>
+                        <Logo><StyledLink as={Link} to={ROUTES.HOME}>Hearstmade Tools</StyledLink></Logo>
+                        <NavItem><StyledLink as={Link} to={ROUTES.NATIVEGALLERY_LIST}>Native Galleries</StyledLink></NavItem>
+                        <NavItem right onClick={this.onAccountOpen}>
+                            <StyledLink>{authUser.username}</StyledLink>
+                            {accountOpen && (
+                                <AccountNav>
+                                    <AccountNavItem><StyledLink as={Link} to={ROUTES.ACCOUNT}>Account</StyledLink></AccountNavItem>
+                                    {authUser.roles.includes(ROLES.ADMIN) && (
+                                        <AccountNavItem><StyledLink as={Link} to={ROUTES.ADMIN}>Admin</StyledLink></AccountNavItem>
+                                    )}
+                                    <AccountNavItem><StyledLink><SignOutButton /></StyledLink></AccountNavItem>
+                                </AccountNav>
+                            )}
+                        </NavItem>
+                    </NavBar>
                 </SiteContainer>
-            </NavBar>
+            </NavBarWrapper>
         );
     }
 }
 
 const NavigationNonAuth = () => (
-    <NavBar>
-        <Logo><StyledLink as={Link} to={ROUTES.LANDING}>Hearstmade Tools</StyledLink></Logo>
-        <NavItem right><StyledLink as={Link}to={ROUTES.SIGN_IN}>Sign In</StyledLink></NavItem>
-    </NavBar>
+    <NavBarWrapper>
+        <SiteContainer>
+            <NavBar>
+                <Logo><StyledLink as={Link} to={ROUTES.LANDING}>Hearstmade Tools</StyledLink></Logo>
+                <NavItem right><StyledLink as={Link}to={ROUTES.SIGN_IN}>Sign In</StyledLink></NavItem>
+            </NavBar>
+        </SiteContainer>
+    </NavBarWrapper>
 );
 
 export default Navigation;
@@ -68,6 +74,11 @@ export default Navigation;
 
 
 // *** STYLED COMPONENTS ***
+
+const NavBarWrapper = styled.div`
+    background-color: #6e9ee5;
+`
+
 const NavBar = styled.ul`
     -webkit-user-select: none;       
     -moz-user-select: none;

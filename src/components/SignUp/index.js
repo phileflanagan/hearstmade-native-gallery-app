@@ -6,11 +6,14 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
+import styled from 'styled-components';
+import { Input, Button, Center, AccountForm } from '../Generic';
+
 const SignUpPage = () => (
-    <div>
+    <Center>
         <h1>Sign Up</h1>
         <SignUpForm />
-    </div>
+    </Center>
 );
 
 const INITIAL_STATE = {
@@ -72,39 +75,39 @@ class SignUpFormBase extends Component {
         const isInvalid = passwordOne !== passwordTwo || passwordOne === '' || email === '' || username === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input
+            <AccountForm onSubmit={this.onSubmit}>
+                <Input
                     name="username"
                     value={username}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Username"
                 />
-                <input
+                <Input
                     name="email"
                     value={email}
                     onChange={this.onChange}
                     type="text"
                     placeholder="Email"
                 />
-                <input
+                <Input
                     name="passwordOne"
                     value={passwordOne}
                     onChange={this.onChange}
                     type="password"
                     placeholder="Password"
                 />
-                <input
+                <Input
                     name="passwordTwo"
                     value={passwordTwo}
                     onChange={this.onChange}
                     type="password"
                     placeholder="Confirm Password"
                 />
-                <button disabled={isInvalid} type="submit">Sign Up!</button>
+                <Button disabled={isInvalid} type="submit">Sign Up!</Button>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </AccountForm>
         );
     }
 }
