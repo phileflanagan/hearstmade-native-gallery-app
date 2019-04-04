@@ -170,6 +170,8 @@ class NativeGalleryBase extends Component {
         const { editMode, editProjectName, projectName } = this.state;
         const decrementInvalid = cardCount <= 0;
         const incrementInvalid = cardCount >= limit;
+
+        // TODO: Add Headline here, remove from individual cards
         return (
             <AuthUserContext.Consumer>
                 {authUser => (
