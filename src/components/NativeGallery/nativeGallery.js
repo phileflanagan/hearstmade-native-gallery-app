@@ -11,7 +11,7 @@ import NativeCard from './nativeCard';
 
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, ButtonClear, LargeHeading } from '../Generic';
+import { Button, ButtonSubtle , ButtonClear, ButtonGroup, Label, Counter} from '../Generic';
 
 const INITIAL_STATE = {
     loading: false,
@@ -224,26 +224,30 @@ class NativeGalleryBase extends Component {
                                         <div>
                                         {editMode ? (
                                             <div>
-                                                <label htmlFor="projectName">Project Name</label>
-                                                <input
-                                                    type="text"
-                                                    name="editProjectName"
-                                                    value={editProjectName}
-                                                    onChange={this.onChangeText}
-                                                    placeholder="Project Name"
-                                                    id="projectName"
-                                                />
-                                                <br />
-                                                <label htmlFor="unitHeadline">Unit Headline</label>
-                                                <input
-                                                    type="text"
-                                                    name="editHeadline"
-                                                    value={editHeadline}
-                                                    onChange={this.onChangeText}
-                                                    placeholder="Headline"
-                                                    id="unitHeadline"
-                                                />
-                                                {<span>{editHeadline.length} / {this.charLimits.editHeadline}</span>}
+                                                <InfoGroup>
+                                                    <Label htmlFor="projectName">Project Name</Label>
+                                                    <InfoInput
+                                                        type="text"
+                                                        name="editProjectName"
+                                                        value={editProjectName}
+                                                        onChange={this.onChangeText}
+                                                        placeholder="Project Name"
+                                                        id="projectName"
+                                                    />
+                                                </InfoGroup>
+                                                <InfoGroup>
+                                                    <Label htmlFor="unitHeadline">Unit Headline</Label>
+                                                    <InfoInput
+                                                        type="text"
+                                                        name="editHeadline"
+                                                        value={editHeadline}
+                                                        onChange={this.onChangeText}
+                                                        placeholder="Headline"
+                                                        id="unitHeadline"
+                                                    />
+                                                    <Counter marginAuto>{editHeadline.length} / {this.charLimits.editHeadline}</Counter>
+                                                </InfoGroup>
+                                                
                                             </div>
                                         ) : (
                                             <div>
@@ -258,12 +262,20 @@ class NativeGalleryBase extends Component {
                                             </div>
                                         )}
                                         {editMode ? (
-                                            <div>
-                                                <button onClick={() => this.onSaveEditText()}>Save</button>
-                                                <button onClick={this.onToggleEditMode}>Reset</button>
-                                            </div>
+                                            <ButtonGroup>
+                                                <ButtonSubtle onClick={this.onToggleEditMode}>
+                                                    <FontAwesomeIcon icon="undo" fixedWidth />
+                                                </ButtonSubtle>
+                                                <ButtonSubtle onClick={() => this.onSaveEditText()}>
+                                                    <FontAwesomeIcon icon="save" fixedWidth />
+                                                </ButtonSubtle>
+                                            </ButtonGroup>
                                         ) : (
-                                            <button onClick={this.onToggleEditMode}>Edit</button>
+                                            <ButtonGroup>
+                                                <ButtonSubtle onClick={this.onToggleEditMode}>
+                                                    <FontAwesomeIcon icon="pencil-alt" />
+                                                </ButtonSubtle>
+                                            </ButtonGroup>
                                         )}
                                         </div>
                                     </MainInfoGroup>
@@ -277,29 +289,38 @@ class NativeGalleryBase extends Component {
                                         />
                                     ))}
                                     {cardCount > 0 && edited && !existing && (
-                                        <button 
+                                        <Button 
                                             type="button" 
                                             onClick={e => this.onPublish(e, authUser)}
-                                        >Publish</button>
+                                        >Publish</Button>
                                     )}
                                     {cardCount > 0 && edited && existing && (
-                                        <button 
+                                        <Button 
                                             type="button" 
                                             onClick={e => this.onUpdatePublished(e, authUser)}
-                                        >Update Project</button>
+                                        >Update Project</Button>
                                     )}
                                     {error && <div>{error}</div>}
                                 </div>
                             ) : (
                                 <div>
-                                    Number of Cards: {cardCount}
-                                    <div>
-                                        {projectName}
-                                    </div>
+                                    <MainInfoGroup>
+                                        <Label> Number of cards</Label>
+                                        <CardCountGroup>
+                                            <CardCount>{cardCount}</CardCount>
+                                        </CardCountGroup>
+                                        <InfoGroup>
+                                            <Label>Project Name</Label> 
+                                            <Info>{projectName}</Info>
+                                        </InfoGroup>
+                                        <InfoGroup>
+                                            <Label>Unit Headline</Label> 
+                                            <Info>{headline}</Info>
+                                        </InfoGroup>
+                                    </MainInfoGroup>
                                     {nativeCards.map((nativeCard, i) => (
                                         <NativeCard 
                                             key={i} 
-                                            headline={headline}
                                             cardData={nativeCard}
                                             onUpdateCard={this.onUpdateCard} 
                                             canEdit={false}
@@ -347,6 +368,21 @@ const Info = styled.p`
     font-weight: 700;
     margin: 0;
 `
+
+const InfoInput = styled.input`
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    background-color: rgba(255,255,255,0.2);
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    height: 40px;
+    width: 300px;
+    color: white;
+`
+
 const CardCount = styled.h1`
     display: inline-block;
     height: 40px;
@@ -361,8 +397,3 @@ const CardCountGroup = styled.div`
     justify-content: center;
 `
 
-const Label = styled.label`
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.6rem;
-`

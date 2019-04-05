@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ButtonSubtle, ButtonGroup, Label, Counter } from '../Generic';
 
 class NativeCard extends Component {
     constructor(props) {
@@ -56,13 +58,12 @@ class NativeCard extends Component {
             <CardWrapper>
                 {(canEdit) ? (
                     <div>
-                        Card {cardNumber}
+                        <Label>Card {cardNumber}</Label>
                         {editMode ? (
                             <div>
                                 <h2>{headline}</h2>
-                                <br />
-                                <label htmlFor="editProductName">Product Name</label>
-                                <input
+                                <Label htmlFor="editProductName">Product Name</Label>
+                                <InfoInput
                                     type="text"
                                     name="editProductName"
                                     onChange={this.onChangeText}
@@ -70,21 +71,19 @@ class NativeCard extends Component {
                                     id="editProductName"
                                     placeholder="Product Name"
                                 /> 
-                                {<span>{editProductName.length} / {this.charLimits.editProductName}</span>}
-                                <br />
-                                <label htmlFor="editProductDescription">Description</label>
-                                <textarea
-                                    type="text"
+                                <Counter>{editProductName.length} / {this.charLimits.editProductName}</Counter>
+                                <Label htmlFor="editProductDescription">Description</Label>
+                                <InfoTextArea
+                                    rows={5}
                                     name="editProductDescription"
                                     onChange={this.onChangeText}
                                     value={editProductDescription}
                                     id="editProductDescription"
                                     placeholder="Product Description"
-                                ></textarea>
-                                {<span>{editProductDescription.length} / {this.charLimits.editProductDescription}</span>}
-                                <br />
-                                <label htmlFor="editPrice">Price</label>
-                                <input
+                                ></InfoTextArea>
+                                <Counter>{editProductDescription.length} / {this.charLimits.editProductDescription}</Counter>
+                                <Label htmlFor="editPrice">Price</Label>
+                                <InfoInput
                                     type="text"
                                     name="editPrice"
                                     onChange={this.onChangeText}
@@ -92,7 +91,7 @@ class NativeCard extends Component {
                                     id="editPrice"
                                     placeholder="Price, e.g. '$0.00"
                                 />
-                                {<span>{editPrice.length} / {this.charLimits.editPrice}</span>}      
+                                <Counter>{editPrice.length} / {this.charLimits.editPrice}</Counter>   
                             </div>
                         ) : (
                             <div>
@@ -104,12 +103,20 @@ class NativeCard extends Component {
                         )}
 
                         {editMode ? (
-                            <div>
-                                <button onClick={() => this.onSaveEditText(cardNumber)}>Save</button>
-                                <button onClick={this.onToggleEditMode}>Reset</button>
-                            </div>
+                            <ButtonGroup>
+                                <ButtonSubtle onClick={this.onToggleEditMode}>
+                                    <FontAwesomeIcon icon="undo" fixedWidth />
+                                </ButtonSubtle>
+                                <ButtonSubtle onClick={() => this.onSaveEditText(cardNumber)}>
+                                    <FontAwesomeIcon icon="save" fixedWidth />
+                                </ButtonSubtle>
+                            </ButtonGroup>
                         ) : (
-                            <button onClick={this.onToggleEditMode}>Edit</button>
+                            <ButtonGroup>
+                                <ButtonSubtle onClick={this.onToggleEditMode}>
+                                    <FontAwesomeIcon icon="pencil-alt" />
+                                </ButtonSubtle>
+                            </ButtonGroup>
                         )}
                     </div>
                 ) : (
@@ -138,4 +145,32 @@ const CardWrapper = styled.div`
     padding: 1rem;
     margin: 0.5rem;
     text-align: left;
+`
+
+const InfoInput = styled.input`
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    outline: none;
+    padding: 0.5rem;
+    height: 40px;
+    width: 300px;
+    color: #222;
+`
+
+const InfoTextArea = styled.textarea`
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 0;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    outline: none;
+    padding: 0.5rem;
+    height: 40px;
+    width: 300px;
+    color: #222;
 `

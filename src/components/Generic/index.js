@@ -33,6 +33,28 @@ export const ButtonClear = styled.button`
     background-color: transparent;
 `
 
+export const ButtonSubtle = styled.button`
+    cursor: pointer;
+    display: inline-block;
+    color: #888;
+    outline: none;
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: transparent;
+    border: 1px solid #888;
+    border-radius: 4px;
+    margin: 5px;
+`
+export const ButtonGroup = styled.div`
+`
+
+export const Label = styled.label`
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+`
+
 export const Input = styled.input`
     display: ${props => props.inline ? 'inline-block' : 'block'}
     padding: 0.5rem;
@@ -123,4 +145,12 @@ export const LargeHeading = styled.h1`
 `
 export const SubtleText = styled.p`
     opacity: 0.5;
+`
+
+export const Counter = styled.p`
+    display: block;
+    text-align: right;
+    font-size: 0.6rem;
+    width: 300px;
+    margin: ${props => props.marginAuto ? '3px auto' : '3px 0'};
 `

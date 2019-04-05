@@ -11,7 +11,10 @@ import {
     faEye,
     faChevronLeft,
     faChevronRight,
-    faHeart
+    faHeart,
+    faPencilAlt,
+    faSave,
+    faUndo
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -26,5 +29,8 @@ library.add(
     faEye,
     faChevronLeft,
     faChevronRight,
-    faHeart
+    faHeart,
+    faPencilAlt,
+    faSave,
+    faUndo
 );
