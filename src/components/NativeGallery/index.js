@@ -4,6 +4,9 @@ import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification } from '../Session';
 import NativeGallery from './nativeGallery';
 
+
+import { Center } from '../Generic';
+
 // const NativeGalleryPage = ({nativeGallery}) => (
 //     <div>
 //         <h1>{nativeGallery ? nativeGallery.projectName : <h1>Create Native</h1>}</h1>
@@ -23,10 +26,10 @@ class NativeGalleryPage extends Component {
     render() {
         const { nativeGallery } = this.state;
         return (
-            <div>
+            <Center>
                 <h1>{nativeGallery ? nativeGallery.projectName + ' / ' + nativeGallery.uid : 'Create Native'}</h1>
                 <NativeGallery nativeGallery={nativeGallery} />
-            </div>
+            </Center>
         );
     }
 

@@ -9,6 +9,10 @@ import * as ROLES from '../../constants/roles';
 
 import NativeCard from './nativeCard';
 
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, ButtonClear, LargeHeading } from '../Generic';
+
 const INITIAL_STATE = {
     loading: false,
     existing: false,
@@ -202,59 +206,67 @@ class NativeGalleryBase extends Component {
                             <div>
                             { (!existing || authUser.uid === userId || authUser.roles.includes(ROLES.ADMIN)) ? (
                                 <div>
-                                    Number of cards: 
-                                    <button 
-                                        type="button"
-                                        disabled={decrementInvalid} 
-                                        onClick={() => this.onDecrementCardCount()}
-                                    > - </button>
-                                    {cardCount}
-                                    <button 
-                                        type="button"
-                                        disabled={incrementInvalid} 
-                                        onClick={() => this.onIncrementCardCount()}
-                                    > + </button>
-            
-                                    <div>
-                                    {editMode ? (
+                                    <MainInfoGroup>
+                                        <Label> Number of cards</Label>
+                                        <CardCountGroup>
+                                            <ButtonClear 
+                                                type="button"
+                                                disabled={decrementInvalid} 
+                                                onClick={() => this.onDecrementCardCount()}
+                                            ><FontAwesomeIcon icon="chevron-left" fixedWidth /></ButtonClear>
+                                            <CardCount>{cardCount}</CardCount>
+                                            <ButtonClear 
+                                                type="button"
+                                                disabled={incrementInvalid} 
+                                                onClick={() => this.onIncrementCardCount()}
+                                            ><FontAwesomeIcon icon="chevron-right" fixedWidth /></ButtonClear>
+                                        </CardCountGroup>
                                         <div>
-                                            <label htmlFor="projectName">Project Name</label>
-                                            <input
-                                                type="text"
-                                                name="editProjectName"
-                                                value={editProjectName}
-                                                onChange={this.onChangeText}
-                                                placeholder="Project Name"
-                                                id="projectName"
-                                            />
-                                            <br />
-                                            <label htmlFor="unitHeadline">Unit Headline</label>
-                                            <input
-                                                type="text"
-                                                name="editHeadline"
-                                                value={editHeadline}
-                                                onChange={this.onChangeText}
-                                                placeholder="Headline"
-                                                id="unitHeadline"
-                                            />
-                                            {<span>{editHeadline.length} / {this.charLimits.editHeadline}</span>}
+                                        {editMode ? (
+                                            <div>
+                                                <label htmlFor="projectName">Project Name</label>
+                                                <input
+                                                    type="text"
+                                                    name="editProjectName"
+                                                    value={editProjectName}
+                                                    onChange={this.onChangeText}
+                                                    placeholder="Project Name"
+                                                    id="projectName"
+                                                />
+                                                <br />
+                                                <label htmlFor="unitHeadline">Unit Headline</label>
+                                                <input
+                                                    type="text"
+                                                    name="editHeadline"
+                                                    value={editHeadline}
+                                                    onChange={this.onChangeText}
+                                                    placeholder="Headline"
+                                                    id="unitHeadline"
+                                                />
+                                                {<span>{editHeadline.length} / {this.charLimits.editHeadline}</span>}
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <InfoGroup>
+                                                    <Label>Project Name</Label> 
+                                                    <Info>{projectName}</Info>
+                                                </InfoGroup>
+                                                <InfoGroup>
+                                                    <Label>Unit Headline</Label> 
+                                                    <Info>{headline}</Info>
+                                                </InfoGroup>
+                                            </div>
+                                        )}
+                                        {editMode ? (
+                                            <div>
+                                                <button onClick={() => this.onSaveEditText()}>Save</button>
+                                                <button onClick={this.onToggleEditMode}>Reset</button>
+                                            </div>
+                                        ) : (
+                                            <button onClick={this.onToggleEditMode}>Edit</button>
+                                        )}
                                         </div>
-                                    ) : (
-                                        <div>
-                                            <span>Project Name: {projectName}</span>
-                                            <br />
-                                            <span>Unit Headline: {headline}</span>
-                                        </div>
-                                    )}
-                                    {editMode ? (
-                                        <div>
-                                            <button onClick={() => this.onSaveEditText()}>Save</button>
-                                            <button onClick={this.onToggleEditMode}>Reset</button>
-                                        </div>
-                                    ) : (
-                                        <button onClick={this.onToggleEditMode}>Edit</button>
-                                    )}
-                                    </div>
+                                    </MainInfoGroup>
                                     {nativeCards.map((nativeCard, i) => (
                                         <NativeCard 
                                             key={i} 
@@ -310,3 +322,47 @@ export default compose(
     withRouter,
     withFirebase
 )(NativeGalleryBase);
+
+
+
+// *** STYLED COMPONENTS
+
+
+const MainInfoGroup = styled.div`
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #4444;
+    text-align: center;
+    margin-bottom: 1rem;
+`
+
+const InfoGroup = styled.div`
+    margin: 1rem auto;
+`
+
+const Info = styled.p`
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+`
+const CardCount = styled.h1`
+    display: inline-block;
+    height: 40px;
+    margin: 0;
+    margin-top: 8px;
+`
+
+const CardCountGroup = styled.div`
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const Label = styled.label`
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.6rem;
+`

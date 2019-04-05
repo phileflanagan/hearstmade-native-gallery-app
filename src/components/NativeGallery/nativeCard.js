@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import styled from 'styled-components';
+
 class NativeCard extends Component {
     constructor(props) {
         super(props);
@@ -51,7 +53,7 @@ class NativeCard extends Component {
         const { editMode, editProductName, editProductDescription, editPrice } = this.state;
         const { canEdit, headline } = this.props;
         return (
-            <div>
+            <CardWrapper>
                 {(canEdit) ? (
                     <div>
                         Card {cardNumber}
@@ -109,7 +111,6 @@ class NativeCard extends Component {
                         ) : (
                             <button onClick={this.onToggleEditMode}>Edit</button>
                         )}
-                        <hr />
                     </div>
                 ) : (
                     <div>
@@ -119,8 +120,22 @@ class NativeCard extends Component {
                         <p>{price}</p>
                     </div>
                 )}
-            </div>
+            </CardWrapper>
         );
     }
 }
 export default NativeCard;
+
+
+// *** STYLED COMPONENTS ***
+
+const CardWrapper = styled.div`
+    display: inline-block;
+    width: 400px;
+    background-color: white;
+    border-radius: 0.2rem;
+    color: black;
+    padding: 1rem;
+    margin: 0.5rem;
+    text-align: left;
+`

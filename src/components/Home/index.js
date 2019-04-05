@@ -5,9 +5,11 @@ import { withAuthorization, withEmailVerification } from '../Session';
 
 import styled from 'styled-components';
 import { LargeHeading, SubtleText } from '../Generic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const HomePage = () => (
     <Splash>
+        <LargeHeading><FontAwesomeIcon icon="eye" /></LargeHeading>
         <LargeHeading>Welcome</LargeHeading>
         <SubtleText>Hearstmade Tools: A new experience</SubtleText>
     </Splash>
@@ -24,10 +26,10 @@ export default compose(
 // *** STYLED COMPONENTS ***
 
 const Splash = styled.div`
-    width: 100vw;
-    height: calc(100vh - 50px);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height: 50vh;
+    background-color: salmon;
 `

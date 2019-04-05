@@ -22,6 +22,17 @@ export const Button = styled.button`
     background-color: ${props => props.light ? '#f0cf7f' : '#e7bd57'};
 `
 
+export const ButtonClear = styled.button`
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 1rem;
+    color: ${props => props.white ? 'white' : '#e7bd57'};
+    outline: none;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+`
+
 export const Input = styled.input`
     display: ${props => props.inline ? 'inline-block' : 'block'}
     padding: 0.5rem;
@@ -38,6 +49,16 @@ export const Input = styled.input`
 
 export const FormIcon = styled.span`
     background-color: #777;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+export const SubtleIcon = styled.span`
+    background-color: rgba(0,0,0,0.5);
     width: 40px;
     height: 40px;
     display: inline-block;
