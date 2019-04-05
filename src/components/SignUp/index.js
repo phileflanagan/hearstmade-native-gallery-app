@@ -6,9 +6,8 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
-import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import { Input, Button, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
 
 const SignUpPage = () => (
     <AccountFormBox>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'recompose';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthorization, withEmailVerification } from '../Session';

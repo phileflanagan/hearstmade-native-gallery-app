@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter} from 'react-router-dom';
 
 import SignOutButton from '../SignOut';
 import { AuthUserContext } from '../Session';
@@ -17,12 +17,22 @@ const Navigation = ({ authUser }) => (
     </AuthUserContext.Consumer>
 );
 
-class NavigationAuth extends Component {
+class NavigationAuthBase extends Component {
     constructor(props) {
         super(props);
         this.state = {
             accountOpen: false,
-        }
+        };
+    }
+
+    componentDidMount() {
+        this.unlisten = this.props.history.listen((location, action) => {
+            this.setState({ accountOpen: false });
+        });
+    }
+
+    componentWillUnmount() {
+        this.unlisten();
     }
 
     onAccountOpen = e => {
@@ -30,6 +40,7 @@ class NavigationAuth extends Component {
             accountOpen: !state.accountOpen
         }));
     }
+
     render() {
         const { authUser } = this.props;
         const { accountOpen } = this.state;
@@ -68,6 +79,8 @@ const NavigationNonAuth = () => (
         </SiteContainer>
     </NavBarWrapper>
 );
+
+const NavigationAuth = withRouter(NavigationAuthBase)
 
 export default Navigation;
 

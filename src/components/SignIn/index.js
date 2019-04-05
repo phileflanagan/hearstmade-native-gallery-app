@@ -8,8 +8,7 @@ import { PasswordForgetLink } from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
-import styled from 'styled-components';
-import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import { Input, Button, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SignInPage = () => (

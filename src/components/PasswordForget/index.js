@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
-import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import { Input, Button, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PasswordForgetPage = () => (

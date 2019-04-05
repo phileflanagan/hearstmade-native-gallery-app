@@ -16,13 +16,12 @@ class NativeGalleryPage extends Component {
         super(props);
         this.state = {
             nativeGallery: null,
-            loading: false,
             ...props.location.state
         }
     }
 
     render() {
-        const { nativeGallery, loading } = this.state;
+        const { nativeGallery } = this.state;
         return (
             <div>
                 <h1>{nativeGallery ? nativeGallery.projectName + ' / ' + nativeGallery.uid : 'Create Native'}</h1>

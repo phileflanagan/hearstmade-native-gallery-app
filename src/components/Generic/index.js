@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
 import styled from 'styled-components';
-import { callbackify } from 'util';
 
 export const SiteContainer = styled.div`
     display: ${props => props.flex ? 'flex' : 'block'}
@@ -98,7 +97,8 @@ export const Tooltip = styled.div`
 `
 
 export const LargeHeading = styled.h1`
-    font-size: 3rem;
+    font-size: 4rem;
+    margin: 1rem;
 `
 export const SubtleText = styled.p`
     opacity: 0.5;

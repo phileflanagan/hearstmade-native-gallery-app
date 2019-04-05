@@ -18,7 +18,7 @@ import { withAuthentication } from '../Session';
 
 import '../FontAwesome';
 import styled from 'styled-components';
-import { SiteContainer, Flex } from '../Generic';
+import { SiteContainer } from '../Generic';
 
 const App = () => (
     <Router>
