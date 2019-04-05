@@ -7,13 +7,14 @@ import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
 import styled from 'styled-components';
-import { Input, Button, Center, AccountForm } from '../Generic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
 
 const SignUpPage = () => (
-    <Center>
+    <AccountFormBox>
         <h1>Sign Up</h1>
         <SignUpForm />
-    </Center>
+    </AccountFormBox>
 );
 
 const INITIAL_STATE = {
@@ -76,34 +77,58 @@ class SignUpFormBase extends Component {
 
         return (
             <AccountForm onSubmit={this.onSubmit}>
-                <Input
-                    name="username"
-                    value={username}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Username"
-                />
-                <Input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email"
-                />
-                <Input
-                    name="passwordOne"
-                    value={passwordOne}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <Input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Confirm Password"
-                />
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="user" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="username"
+                        value={username}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Full Name"
+                    />
+                </Flex>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="envelope" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email"
+                    />
+                </Flex>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="key" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="passwordOne"
+                        value={passwordOne}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Flex>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="key" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Confirm Password"
+                    />
+                </Flex>
                 <Button disabled={isInvalid} type="submit">Sign Up!</Button>
 
                 {error && <p>{error.message}</p>}

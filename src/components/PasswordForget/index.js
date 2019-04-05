@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
-import { Input, Button, Center, AccountForm } from '../Generic';
+import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PasswordForgetPage = () => (
-    <Center>
+    <AccountFormBox>
         <h1>Forgot Password</h1>
         <PasswordForgetForm />
-    </Center>
+    </AccountFormBox>
 );
 
 const INITIAL_STATE = {
@@ -49,13 +50,19 @@ class PasswordForgetFormBase extends Component {
         const isInvalid = email === '';
         return (
             <AccountForm onSubmit={this.onSubmit}>
-                <Input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="envelope" />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email Address"
+                    />
+                </Flex>
                 <Button disabled={isInvalid} type="submit">Reset My Password</Button>
 
                 {error && <p>{error.message}</p>}

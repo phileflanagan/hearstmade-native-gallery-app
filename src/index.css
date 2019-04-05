@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,7 +18,45 @@ code {
   box-sizing: border-box;
 }
 
+
+button a {
+  color: white;
+}
 a {
   color: #e7bd57;
   text-decoration: none;
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  border: none;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #888; 
+}
+tr:nth-of-type(even) { 
+  background: #666; 
+}
+th { 
+  background: #6e9ee5; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  position: relative;
+  padding: 6px; 
+  border: none; 
+  text-align: left; 
 }

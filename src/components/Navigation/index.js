@@ -134,6 +134,7 @@ const AccountNav = styled.ul`
     padding: 0;
     margin: 0;
     flex-direction: column;
+    z-index: 5;
 `
 
 const AccountNavItem = styled.li`

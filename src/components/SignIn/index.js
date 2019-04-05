@@ -9,15 +9,16 @@ import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
 import styled from 'styled-components';
-import { Input, Button, Center, AccountForm } from '../Generic';
+import { Input, Button, Center, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SignInPage = () => (
-    <Center>
+    <AccountFormBox>
         <h1>Sign In</h1>
         <SignInForm />
         <PasswordForgetLink />
         <SignUpLink />
-    </Center>
+    </AccountFormBox>
 );
 
 const INITIAL_STATE = {
@@ -55,20 +56,32 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
         return (
             <AccountForm onSubmit={this.onSubmit}>
-                <Input
-                    name="email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <Input
-                    name="password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="envelope" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email Address"
+                    />
+                </Flex>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="key" fixedWidth />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Flex>
                 <Button disabled={isInvalid} type="submit">Sign In</Button>
 
                 {error && <p>{error.message}</p>}
@@ -85,3 +98,4 @@ const SignInForm = compose(
 export default SignInPage;
 
 export { SignInForm };
+

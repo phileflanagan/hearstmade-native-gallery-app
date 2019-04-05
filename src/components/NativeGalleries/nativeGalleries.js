@@ -6,6 +6,9 @@ import { withFirebase } from '../Firebase';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Right, Button, Tooltip } from '../Generic';
+
 class NativeGalleriesBase extends Component {
     constructor(props) {
         super(props);
@@ -65,7 +68,9 @@ class NativeGalleriesBase extends Component {
         const { users, nativeGalleries, loading} = this.state;
         return (
             <div>
-                <button type="button"><Link to={ROUTES.NATIVEGALLERY_CREATE}>Create</Link></button>
+                <Link to={ROUTES.NATIVEGALLERY_CREATE}>
+                    <Button type="button">Create New Project</Button>
+                </Link>
                 {loading && <div>Loading...</div>}
                 {nativeGalleries && (
                     <NativeGalleryListTable
@@ -131,8 +136,7 @@ class NativeGalleryListTable extends Component {
                         <th>Project Name</th>
                         <th>Card Count</th>
                         <th>ID</th>
-                        <th>View</th>
-                        <th>Copy Link</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,14 +146,7 @@ class NativeGalleryListTable extends Component {
                         <td>{nativeGallery.projectName}</td>
                         <td>{nativeGallery.cardCount}</td>
                         <td>{nativeGallery.uid}</td>
-                        <td><Link 
-                                to={{
-                                    pathname: `${ROUTES.NATIVEGALLERY_LIST}/${nativeGallery.uid}`, 
-                                    state: { nativeGallery }
-                                }}
-                            >View</Link>
-                        </td>
-                        <td>
+                        <Right as='td'>
                             <input 
                                 ref={this.getOrCreateRef(nativeGallery.uid)}
                                 type="text"
@@ -158,14 +155,24 @@ class NativeGalleryListTable extends Component {
                                 defaultValue={`${process.env.REACT_APP_CLOUDFN_GETNATIVE}?id=${nativeGallery.uid}`} />
                             {document.queryCommandSupported('copy') && (
                                 <div>
-                                <button
-                                    type="button"
-                                    onClick={e => this.onCopyToClipboard(e, nativeGallery.uid)}
-                                >Copy to Clipboard</button>
+                                    <Link 
+                                        to={{
+                                            pathname: `${ROUTES.NATIVEGALLERY_LIST}/${nativeGallery.uid}`, 
+                                            state: { nativeGallery }
+                                        }}
+                                    >
+                                        <Button light><FontAwesomeIcon icon="eye" fixedWidth /></Button>
+                                    </Link>
+                                    <Button
+                                        type="button"
+                                        onClick={e => this.onCopyToClipboard(e, nativeGallery.uid)}
+                                    >
+                                        <FontAwesomeIcon icon="clipboard" fixedWidth /> 
+                                    </Button>
                                 </div>
                             )}
-                            {nativeGallery.uid === this.state.copiedUid && <span>{this.state.copySuccess}</span>}
-                        </td>
+                            {nativeGallery.uid === this.state.copiedUid && <Tooltip>{this.state.copySuccess}</Tooltip>}
+                        </Right>
                     </tr>  
                 ))}
                 </tbody>
