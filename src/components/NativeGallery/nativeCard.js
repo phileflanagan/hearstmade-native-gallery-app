@@ -61,7 +61,7 @@ class NativeCard extends Component {
                         <Label>Card {cardNumber}</Label>
                         {editMode ? (
                             <div>
-                                <h2>{headline}</h2>
+                                <NativeHeadline>{headline}</NativeHeadline>
                                 <Label htmlFor="editProductName">Product Name</Label>
                                 <InfoInput
                                     type="text"
@@ -95,7 +95,7 @@ class NativeCard extends Component {
                             </div>
                         ) : (
                             <div>
-                                <h2>{headline}</h2>
+                                <NativeHeadline>{headline}</NativeHeadline>
                                 <h3>{productName}</h3>
                                 <p>{productDescription}</p>
                                 <p>{price}</p>
@@ -121,7 +121,7 @@ class NativeCard extends Component {
                     </div>
                 ) : (
                     <div>
-                        <h2>{headline}</h2>
+                        <NativeHeadline>{headline}</NativeHeadline>
                         <h3>{productName}</h3>
                         <p>{productDescription}</p>
                         <p>{price}</p>
@@ -180,4 +180,9 @@ const InfoTextArea = styled.textarea`
     height: 40px;
     width: 300px;
     color: #222;
+`
+
+const NativeHeadline = styled.h2`
+    font-family: "Playfair Display";
+    font-style: oblique;
 `
