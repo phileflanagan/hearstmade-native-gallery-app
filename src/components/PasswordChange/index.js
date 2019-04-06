@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import { withFirebase } from '../Firebase';
 
+import { Input, Button, Flex, FormIcon, AccountForm } from '../Generic';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const INITIAL_STATE = {
     passwordOne: '',
     passwordTwo: '',
@@ -37,25 +40,37 @@ class PasswordChangeForm extends Component {
         const { passwordOne, passwordTwo, error } = this.state;
         const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
         return (
-            <form onSubmit={this.onSubmit}>
-                <input
-                    name="passwordOne"
-                    value={passwordOne}
-                    type="password"
-                    onChange={this.onChange}
-                    placeholder="New Password"
-                />
-                <input
-                    name="passwordTwo"
-                    value={passwordTwo}
-                    type="password"
-                    onChange={this.onChange}
-                    placeholder="Confirm New Password"
-                />
-                <button disabled={isInvalid} type="submit">Update Password</button>
+            <AccountForm onSubmit={this.onSubmit}>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="key" />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="passwordOne"
+                        value={passwordOne}
+                        type="password"
+                        onChange={this.onChange}
+                        placeholder="New Password"
+                    />
+                </Flex>
+                <Flex vcenter>
+                    <FormIcon>
+                        <FontAwesomeIcon icon="key" />
+                    </FormIcon>
+                    <Input
+                        width100
+                        name="passwordTwo"
+                        value={passwordTwo}
+                        type="password"
+                        onChange={this.onChange}
+                        placeholder="Confirm New Password"
+                    />
+                </Flex>
+                <Button disabled={isInvalid} type="submit">Update Password</Button>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </AccountForm>
         );
     }
 }

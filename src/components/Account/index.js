@@ -5,14 +5,16 @@ import PasswordChangeForm from '../PasswordChange';
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Session';
 import { compose } from 'recompose';
 
+import { AccountFormBox } from '../Generic';
+
 const AccountPage = () => (
     <AuthUserContext.Consumer>
         {authUser => (
-            <div>
-                <h1>Account: {authUser.email}</h1>
+            <AccountFormBox>
+                <h1>Your Account</h1>
                 <PasswordForgetForm />
                 <PasswordChangeForm />
-            </div>
+            </AccountFormBox>
         )}
     </AuthUserContext.Consumer>
 );

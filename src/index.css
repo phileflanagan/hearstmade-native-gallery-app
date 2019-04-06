@@ -44,10 +44,10 @@ table {
 }
 /* Zebra striping */
 tr:nth-of-type(odd) { 
-  background: #888; 
+  background: #626262; 
 }
 tr:nth-of-type(even) { 
-  background: #666; 
+  background: #555; 
 }
 th { 
   background: #6e9ee5; 

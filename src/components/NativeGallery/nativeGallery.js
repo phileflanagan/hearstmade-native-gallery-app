@@ -246,8 +246,7 @@ class NativeGalleryBase extends Component {
                                                         id="unitHeadline"
                                                     />
                                                     <Counter marginAuto>{editHeadline.length} / {this.charLimits.editHeadline}</Counter>
-                                                </InfoGroup>
-                                                
+                                                </InfoGroup>       
                                             </div>
                                         ) : (
                                             <div>
@@ -289,16 +288,20 @@ class NativeGalleryBase extends Component {
                                         />
                                     ))}
                                     {cardCount > 0 && edited && !existing && (
-                                        <Button 
-                                            type="button" 
-                                            onClick={e => this.onPublish(e, authUser)}
-                                        >Publish</Button>
+                                        <div>
+                                            <Button 
+                                                type="button" 
+                                                onClick={e => this.onPublish(e, authUser)}
+                                            >Publish</Button>
+                                        </div>
                                     )}
                                     {cardCount > 0 && edited && existing && (
-                                        <Button 
-                                            type="button" 
-                                            onClick={e => this.onUpdatePublished(e, authUser)}
-                                        >Update Project</Button>
+                                        <div>
+                                            <Button 
+                                                type="button" 
+                                                onClick={e => this.onUpdatePublished(e, authUser)}
+                                            >Update Project</Button>
+                                        </div>
                                     )}
                                     {error && <div>{error}</div>}
                                 </div>

@@ -6,13 +6,12 @@ import { withFirebase } from '../Firebase';
 import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
+import { Button } from '../Generic';
 
 
 const AdminPage = () => (
     <div>
         <h1>Admin Page</h1>
-        <p>This page is only accessible to people with admin privileges.</p>
-
         <Switch>
             <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
             <Route exact path={ROUTES.ADMIN} component={UserList} />
@@ -137,7 +136,12 @@ class UserItemBase extends Component {
                 {user && (
                     <div>
                         <UserItemTable user={user} />
-                        <button disabled={this.state.sent} type="button" onClick={this.onSendPasswordResetEmail}>Send Password Reset</button>
+    
+                        <Button 
+                            disabled={this.state.sent} 
+                            type="button" 
+                            onClick={this.onSendPasswordResetEmail}
+                        >Send Password Reset</Button>
                         {sent && <div>Email sent!</div>}
                         {error && <div>{error}</div>}
                     </div>

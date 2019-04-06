@@ -13,7 +13,7 @@ const Footer = () => {
             <SiteContainer padding>
                 <FooterBar>
                     <span>&copy; {copyrightYear} Hearstmade</span>
-                    <span>Made with <FontAwesomeIcon icon="heart" /> by Phil Flanagan</span>
+                    <span>Made with <FontAwesomeIcon icon="heart" fixedWidth /> by Phil Flanagan</span>
                 </FooterBar>
             </SiteContainer>
         </FooterBarWrapper>
