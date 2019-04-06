@@ -138,13 +138,20 @@ export default NativeCard;
 
 const CardWrapper = styled.div`
     display: inline-block;
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     background-color: white;
     border-radius: 0.2rem;
     color: black;
     padding: 1rem;
     margin: 0.5rem;
     text-align: left;
+
+    @media (max-width: 700px) {
+        display: block;
+        max-width: 100%;
+        margin: 0.5rem 0;
+      }
 `
 
 const InfoInput = styled.input`

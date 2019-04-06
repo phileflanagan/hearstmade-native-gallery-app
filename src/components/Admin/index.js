@@ -57,6 +57,7 @@ class UserListBase extends Component {
 }
 
 const UserListTable = ({users}) => (
+    <div style={{overflowX: 'scroll'}}>
     <table>
         <thead>
             <tr>
@@ -85,6 +86,7 @@ const UserListTable = ({users}) => (
         ))}
         </tbody>
     </table>
+    </div>
 );
 
 class UserItemBase extends Component {
@@ -152,6 +154,7 @@ class UserItemBase extends Component {
 }
 
 const UserItemTable = ({user}) => (
+    <div style={{overflowX: 'scroll'}}>
     <table>
         <thead>
             <tr>
@@ -174,6 +177,7 @@ const UserItemTable = ({user}) => (
             </tr>  
         </tbody>
     </table>
+    </div>
 );
 
 

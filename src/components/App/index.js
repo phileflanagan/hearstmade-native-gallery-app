@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navigation from '../Navigation';
 import Footer from '../Footer';
@@ -24,17 +24,19 @@ const App = () => (
     <Router>
         <SiteWrapper>
             <Navigation />
-            <SiteContainer padding paddingFooter>
-                <Route exact path={ROUTES.LANDING} component={LandingPage} />
-                <Route path={ROUTES.SIGN_UP} component={SingUpPage} />
-                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-                <Route path={ROUTES.HOME} component={HomePage} />
-                <Route path={ROUTES.NATIVEGALLERY_LIST} component={NativeGalleriesPage} />
-                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-                <Route path={ROUTES.ADMIN} component={AdminPage} />
+                <SiteContainer padding paddingFooter>
+                <Switch>
+                    <Route exact path={ROUTES.LANDING} component={LandingPage} />
+                    <Route path={ROUTES.SIGN_UP} component={SingUpPage} />
+                    <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                    <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+                    <Route path={ROUTES.HOME} component={HomePage} />
+                    <Route path={ROUTES.NATIVEGALLERY_LIST} component={NativeGalleriesPage} />
+                    <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                    <Route path={ROUTES.ADMIN} component={AdminPage} />
+                </Switch>
             </SiteContainer>
-            <Footer />
+                <Footer />
         </SiteWrapper>
     </Router>  
 );
@@ -47,4 +49,13 @@ export default withAuthentication(App);
 const SiteWrapper = styled.div`
     min-height: 100vh;
     position: relative;
+`
+
+const AnimWrapper = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: calc(100vh - 90px);
+    background-color: #2d2d2d;
 `
