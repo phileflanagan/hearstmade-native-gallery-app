@@ -129,7 +129,7 @@ class NativeGalleryListTable extends Component {
     render() {
         const { nativeGalleries } = this.props;
         return (
-            <div style={{overflowX: 'scroll'}}>
+            <div style={{overflowX: 'auto'}}>
             <table>
                 <thead>
                     <tr>

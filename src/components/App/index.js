@@ -50,12 +50,3 @@ const SiteWrapper = styled.div`
     min-height: 100vh;
     position: relative;
 `
-
-const AnimWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    min-height: calc(100vh - 90px);
-    background-color: #2d2d2d;
-`
