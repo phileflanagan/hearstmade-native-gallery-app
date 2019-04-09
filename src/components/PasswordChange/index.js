@@ -1,78 +1,75 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
 import { withFirebase } from '../Firebase';
 
 import { Input, Button, Flex, FormIcon, AccountForm } from '../Generic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const INITIAL_STATE = {
-    passwordOne: '',
-    passwordTwo: '',
-    error: null
-}
+const PasswordChangeForm = props => {
+	const [passwordOne, setPasswordOne] = useState('');
+	const [passwordTwo, setPasswordTwo] = useState('');
+	const [error, setError] = useState(null);
 
-class PasswordChangeForm extends Component {
-    constructor(props) {
-        super(props);
+	const onSubmit = e => {
+		const passWordOneCurrent = passwordOne;
+		props.firebase
+			.doPasswordUpdate(passWordOneCurrent)
+			.then(() => {
+				setPasswordOne('');
+				setPasswordTwo('');
+				setError(null);
+			})
+			.catch(error => {
+				setError(error);
+			});
 
-        this.state = { ...INITIAL_STATE };
-    }
+		e.preventDefault();
+	};
 
-    onSubmit = e => {
-        const { passwordOne } = this.state;
-        this.props.firebase
-            .doPasswordUpdate(passwordOne)
-            .then(()=> {
-                this.setState({ ...INITIAL_STATE });
-            })
-            .catch(error => {
-                this.setState({ error });
-            });
+	const onChangePasswordOne = e => {
+		setPasswordOne(e.target.value);
+	};
 
-        e.preventDefault();
-    }
+	const onChangePasswordTwo = e => {
+		setPasswordTwo(e.target.value);
+	};
 
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+	const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
+	return (
+		<AccountForm onSubmit={onSubmit}>
+			<Flex vcenter>
+				<FormIcon>
+					<FontAwesomeIcon icon="key" />
+				</FormIcon>
+				<Input
+					width100
+					name="passwordOne"
+					value={passwordOne}
+					type="password"
+					onChange={e => onChangePasswordOne(e)}
+					placeholder="New Password"
+				/>
+			</Flex>
+			<Flex vcenter>
+				<FormIcon>
+					<FontAwesomeIcon icon="key" />
+				</FormIcon>
+				<Input
+					width100
+					name="passwordTwo"
+					value={passwordTwo}
+					type="password"
+					onChange={e => onChangePasswordTwo(e)}
+					placeholder="Confirm New Password"
+				/>
+			</Flex>
+			<Button disabled={isInvalid} type="submit">
+				Update Password
+			</Button>
 
-    render() {
-        const { passwordOne, passwordTwo, error } = this.state;
-        const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
-        return (
-            <AccountForm onSubmit={this.onSubmit}>
-                <Flex vcenter>
-                    <FormIcon>
-                        <FontAwesomeIcon icon="key" />
-                    </FormIcon>
-                    <Input
-                        width100
-                        name="passwordOne"
-                        value={passwordOne}
-                        type="password"
-                        onChange={this.onChange}
-                        placeholder="New Password"
-                    />
-                </Flex>
-                <Flex vcenter>
-                    <FormIcon>
-                        <FontAwesomeIcon icon="key" />
-                    </FormIcon>
-                    <Input
-                        width100
-                        name="passwordTwo"
-                        value={passwordTwo}
-                        type="password"
-                        onChange={this.onChange}
-                        placeholder="Confirm New Password"
-                    />
-                </Flex>
-                <Button disabled={isInvalid} type="submit">Update Password</Button>
-
-                {error && <p>{error.message}</p>}
-            </AccountForm>
-        );
-    }
-}
+			{error && <p>{error.message}</p>}
+		</AccountForm>
+	);
+};
 
 export default withFirebase(PasswordChangeForm);

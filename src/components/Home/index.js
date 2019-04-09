@@ -8,28 +8,29 @@ import { LargeHeading, SubtleText } from '../Generic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const HomePage = () => (
-    <Splash>
-        <LargeHeading><FontAwesomeIcon icon="eye" /></LargeHeading>
-        <LargeHeading>Welcome</LargeHeading>
-        <SubtleText>Hearstmade Tools: A new experience</SubtleText>
-    </Splash>
+	<Splash>
+		<LargeHeading>
+			<FontAwesomeIcon icon="eye" />
+		</LargeHeading>
+		<LargeHeading>Welcome</LargeHeading>
+		<SubtleText>Hearstmade Tools: A new experience</SubtleText>
+	</Splash>
 );
-    
+
 const condition = authUser => !!authUser;
 
 export default compose(
-    withEmailVerification,
-    withAuthorization(condition)
-)(HomePage)
-
+	withEmailVerification,
+	withAuthorization(condition)
+)(HomePage);
 
 // *** STYLED COMPONENTS ***
 
 const Splash = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 50vh;
-    background-color: salmon;
-`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-height: 50vh;
+	background-color: salmon;
+`;

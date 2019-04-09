@@ -8,93 +8,101 @@ import { PasswordForgetLink } from '../PasswordForget';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
 
-import { Input, Button, Flex, FormIcon, AccountForm, AccountFormBox } from '../Generic';
+import {
+	Input,
+	Button,
+	Flex,
+	FormIcon,
+	AccountForm,
+	AccountFormBox
+} from '../Generic';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SignInPage = () => (
-    <AccountFormBox>
-        <h1>Sign In</h1>
-        <SignInForm />
-        <PasswordForgetLink />
-        <SignUpLink />
-    </AccountFormBox>
+	<AccountFormBox>
+		<h1>Sign In</h1>
+		<SignInForm />
+		<PasswordForgetLink />
+		<SignUpLink />
+	</AccountFormBox>
 );
 
 const INITIAL_STATE = {
-    email: '',
-    password: '',
-    error: null
-}
+	email: '',
+	password: '',
+	error: null
+};
 
 class SignInFormBase extends Component {
-    constructor(props) {
-        super(props)
-        this.state = { ...INITIAL_STATE };
-    }
+	constructor(props) {
+		super(props);
+		this.state = { ...INITIAL_STATE };
+	}
 
-    onSubmit = (e) => {
-        const { email, password } = this.state;
-        this.props.firebase
-            .doSignInWithEmailAndPassword(email, password)
-            .then(() => {
-                this.setState({ ...INITIAL_STATE });
-                this.props.history.push(ROUTES.HOME);
-            })
-            .catch(error => {
-                this.setState({ error });
-            });
-        e.preventDefault();
-    }
+	onSubmit = e => {
+		const { email, password } = this.state;
+		this.props.firebase
+			.doSignInWithEmailAndPassword(email, password)
+			.then(() => {
+				this.setState({ ...INITIAL_STATE });
+				this.props.history.push(ROUTES.HOME);
+			})
+			.catch(error => {
+				this.setState({ error });
+			});
+		e.preventDefault();
+	};
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    }
+	onChange = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
 
-    render() {
-        const { email, password, error } = this.state;
-        const isInvalid = password === '' || email === '';
-        return (
-            <AccountForm onSubmit={this.onSubmit}>
-                <Flex vcenter>
-                    <FormIcon>
-                        <FontAwesomeIcon icon="envelope" fixedWidth />
-                    </FormIcon>
-                    <Input
-                        width100
-                        name="email"
-                        value={email}
-                        onChange={this.onChange}
-                        type="text"
-                        placeholder="Email Address"
-                    />
-                </Flex>
-                <Flex vcenter>
-                    <FormIcon>
-                        <FontAwesomeIcon icon="key" fixedWidth />
-                    </FormIcon>
-                    <Input
-                        width100
-                        name="password"
-                        value={password}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Password"
-                    />
-                </Flex>
-                <Button disabled={isInvalid} type="submit">Sign In</Button>
+	render() {
+		const { email, password, error } = this.state;
+		const isInvalid = password === '' || email === '';
+		return (
+			<AccountForm onSubmit={this.onSubmit}>
+				<Flex vcenter>
+					<FormIcon>
+						<FontAwesomeIcon icon="envelope" fixedWidth />
+					</FormIcon>
+					<Input
+						width100
+						name="email"
+						value={email}
+						onChange={this.onChange}
+						type="text"
+						placeholder="Email Address"
+					/>
+				</Flex>
+				<Flex vcenter>
+					<FormIcon>
+						<FontAwesomeIcon icon="key" fixedWidth />
+					</FormIcon>
+					<Input
+						width100
+						name="password"
+						value={password}
+						onChange={this.onChange}
+						type="password"
+						placeholder="Password"
+					/>
+				</Flex>
+				<Button disabled={isInvalid} type="submit">
+					Sign In
+				</Button>
 
-                {error && <p>{error.message}</p>}
-            </AccountForm>
-        );
-    }
+				{error && <p>{error.message}</p>}
+			</AccountForm>
+		);
+	}
 }
 
 const SignInForm = compose(
-    withRouter,
-    withFirebase
+	withRouter,
+	withFirebase
 )(SignInFormBase);
 
 export default SignInPage;
 
 export { SignInForm };
-
